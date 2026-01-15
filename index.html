@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gentle Net Foundation - Proposal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Fascinate+Inline&family=Kranky&family=Schoolbell&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Serif Text', serif;
+            line-height: 1.6;
+            color: #3a3330;
+            background: linear-gradient(135deg, #d4cac7 0%, #c7bcb9 50%, #b3a9a6 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #faf8f7;
+            border-radius: 16px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            border: 1px solid rgba(199, 188, 185, 0.3);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #a39994 0%, #8a7f7a 100%);
+            color: #faf8f7;
+            padding: 60px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .foundation-name {
+            font-size: 3.2em;
+            margin-bottom: 15px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+
+        .header p {
+            font-size: 1.15em;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .team-names {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(250, 248, 247, 0.3);
+        }
+
+        .team-names p {
+            font-size: 1.1em;
+            opacity: 1;
+            font-style: normal;
+            letter-spacing: 0.5px;
+        }
+
+        .team-names strong {
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        nav {
+            background: #8a7f7a;
+            padding: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav li {
+            margin: 0;
+        }
+
+        nav button {
+            background: none;
+            border: none;
+            color: #faf8f7;
+            padding: 20px 35px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-family: 'DM Serif Text', serif;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav button:hover {
+            background: rgba(250, 248, 247, 0.1);
+            border-bottom-color: #c7bcb9;
+        }
+
+        nav button.active {
+            background: rgba(250, 248, 247, 0.15);
+            border-bottom-color: #faf8f7;
+            font-weight: 600;
+        }
+
+        .page {
+            display: none;
+            padding: 60px 50px;
+            background: #faf8f7;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            padding-bottom: 50px;
+            border-bottom: 2px solid #e6dedd;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(163, 153, 148, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(163, 153, 148, 0.2);
+        }
+
+        .section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #c7bcb9;
+        }
+
+        .section h2 {
+            color: #6b5f5a;
+            font-size: 2em;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .question {
+            margin-bottom: 35px;
+            transition: transform 0.2s ease;
+        }
+
+        .question:hover {
+            transform: translateX(5px);
+        }
+
+        .question h3 {
+            color: #6b5f5a;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .question h3::before {
+            content: '◆';
+            color: #b3a9a6;
+            margin-right: 12px;
+            font-size: 0.8em;
+        }
+
+        .answer-box {
+            background: linear-gradient(to right, #f5f3f2, #faf8f7);
+            border-left: 5px solid #b3a9a6;
+            padding: 25px;
+            border-radius: 8px;
+            min-height: 80px;
+            color: #5a4f4b;
+            line-height: 1.8;
+            box-shadow: inset 0 2px 4px rgba(163, 153, 148, 0.1);
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .staff-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(163, 153, 148, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid #b3a9a6;
+        }
+
+        .staff-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(163, 153, 148, 0.2);
+        }
+
+        .staff-name {
+            font-size: 1.5em;
+            color: #6b5f5a;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .staff-role {
+            color: #a39994;
+            font-size: 1.1em;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .staff-responsibility {
+            color: #5a4f4b;
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .contact-section {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(163, 153, 148, 0.1);
+        }
+
+        .contact-section h3 {
+            color: #6b5f5a;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #c7bcb9;
+        }
+
+        .contact-info {
+            margin-top: 15px;
+        }
+
+        .contact-item {
+            margin-bottom: 15px;
+            color: #5a4f4b;
+            font-size: 1.05em;
+            display: flex;
+            align-items: start;
+        }
+
+        .contact-item strong {
+            color: #6b5f5a;
+            min-width: 100px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .header {
+                padding: 40px 25px;
+            }
+
+            .foundation-name {
+                font-size: 2em;
+            }
+
+            .header h1 {
+                font-size: 1.4em;
+            }
+
+            nav button {
+                padding: 15px 20px;
+                font-size: 1em;
+            }
+
+            .page {
+                padding: 30px 20px;
+            }
+
+            .section {
+                padding: 25px;
+            }
+
+            .section h2 {
+                font-size: 1.5em;
+            }
+
+            .staff-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="foundation-name">Gentle Net Foundation</div>
+                <h1>Philanthropy Group Proposal</h1>
+                <p>Strategic Framework for Impact-Driven Giving</p>
+                <div class="team-names">
+                    <p><strong>By:</strong> George, Mariam, Meera, Terrence & Mouza</p>
+                </div>
+            </div>
+        </div>
+
+        <nav>
+            <ul>
+                <li><button class="nav-btn active" onclick="showPage('proposal')">Proposal</button></li>
+                <li><button class="nav-btn" onclick="showPage('contact')">Contact</button></li>
+            </ul>
+        </nav>
+
+   
+        <div id="proposal" class="page active">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Mission & Vision</h2>
+                </div>
+
+                <div class="question">
+                    <h3>What is our mission?</h3>
+                    <div class="answer-box">
+                        The Gentle Net Foundation exists to ensure that families who lose their primary income earner are not left financially destabilized at their most vulnerable moment. By providing immediate support beyond what Social Security offers and sustaining families through the period of recovery, the Foundation enables households to grieve with dignity, preserve educational opportunity, and regain long-term economic stability.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>What is the change you are trying to bring about?</h3>
+                    <div class="answer-box">
+                        The Gentle Net Foundation seeks to change the way society responds to the loss of a primary income earner. Families should not be forced into financial crisis, educational disruption, or long-term instability simply because public systems provide limited and delayed support. The Foundation aims to replace reactive, insufficient aid with timely, comprehensive support that preserves a family's standard of living, protects children's educational trajectories, and allows families the time and security needed to recover and become self-sustaining again.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2>Theory of Change</h2>
+                </div>
+
+                <div class="question">
+                    <h3>What is your theory about how that change will come about?</h3>
+                    <div class="answer-box">
+                        The Gentle Net Foundation believes that when families lose their sole income provider, immediate financial and emotional support is critical to long-term stability. By covering funeral expenses, short-term income gaps, and medical costs, the foundation reduces financial stress during the grieving period. At the same time, providing access to mental health resources supports emotional recovery and future decision-making. Overall, this approach allows families to maintain their standard of living, keep children in school, and begin healing without being forced into long-term financial or emotional hardship.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>How will you find the possible recipients of the grants?</h3>
+                    <div class="answer-box">
+                        The Gentle Net Foundation partners with hospitals, funeral homes, and local community leaders to identify families who have recently lost their primary income provider. With the family's consent, these institutions help connect them to the foundation and guide them through a simple application process. Support is assessed based on the family's circumstances and immediate needs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2>Organizational Structure</h2>
+                </div>
+
+                <div class="question">
+                    <h3>What kind of staff expertise will you need?</h3>
+                    <div class="answer-box">
+                        The organization will establish its base by recruiting staff who share its purpose and possess distinctive professional abilities. The Program Officers will handle grant portfolios and monitor budgets while they maintain initiative planning coordination. The Research and Evaluation Specialists will track results to establish program success, enabling organizations to base their decisions on evidence. The Community Engagement and Partnerships Staff will identify organizations that qualify for funding by reaching out to local community groups. The Financial and Operations Staff will handle budgeting, reporting, and grant distribution. Legal and Compliance Advisors will ensure regulatory compliance and ethical grantmaking. The Communications Specialists team will handle all public communication activities, including creating reports and implementing transparency initiatives. The organization operates efficiently because it follows a systematic approach, enabling its mission-based response and keeping it accountable.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>How will you organize the staff?</h3>
+                    <div class="answer-box">
+                        The organization will maintain a simple design that relies on team members working together. An Executive Director will oversee strategy, operations, and external relationships. The organization will divide its staff into three essential departments: Programs, Operations, and Learning & Communications. The Programs team will provide grants to organizations while maintaining regular contact with all funded organizations. The Operations team will handle financial management, legal compliance, and administrative work. The Learning & Communications team will evaluate programs and assess their impact, then distribute the findings. The organization has established specific roles, yet it actively encourages collaboration among team members. The organization maintains operational efficiency through this structure, which enables adaptability and mission-based alignment without creating excessive administrative complexity.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>What is the role of the board?</h3>
+                    <div class="answer-box">
+                        The board's role is to provide governance, oversight, and strategic direction. The board members will defend the foundation's mission through their funding decisions and uphold ethical standards for resource management. The organization will have these members who will monitor financial stability, evaluate key decisions, and maintain long-term organizational stability. The board serves as a strategic advisory group that provides professional guidance to the Executive Director on strategic decisions, but avoids involvement in operational activities. The board members will create strategic alliances through their professional connections to develop both institutional alliances and community understanding of the foundation. By focusing on accountability and vision rather than implementation, the board ensures the foundation remains effective and mission-driven.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2>Grant Strategy & Evaluation</h2>
+                </div>
+
+                <div class="question">
+                    <h3>What form will the support take?</h3>
+                    <div class="answer-box">
+                        The support could come in different forms. First, we could have Immediate Crisis Grants, which will be provided by the Foundation and will be direct funding to cover the critical gap between the loss of a breadwinner and the receipt of government benefits. This could include covering 100% of funeral and burial expenses, as well as outstanding medical bills from the deceased's hospitalization. In addition, we should have Educational Stipends. This will be long term funding to prevent children from being forced into minimum-wage labor, the Foundation provides monthly stipends. These payments are intended to support the child's well-being and standard of living through both secondary and higher education. Furthermore, for the children who have the ability to pursue higher education, we will provide the tuition cost and support that child so that in the future the family can recover from losing their primary income earner.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Will you need other funding partners?</h3>
+                    <div class="answer-box">
+                        While the Foundation acts as the primary benefactor, its operational model relies on a network of community and professional partners to identify families and sustain their recovery. For example, we should have medical professionals serve as a primary source of contact to identify families at the moment of a breadwinner's death to support the family. And we should collaborate with external counselors and specialists who are engaged to provide the professional support necessary for long-term emotional recovery for those family that needs this support.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>How will you evaluate the success of the grant?</h3>
+                    <div class="answer-box">
+                        A primary indicator of success is a child successfully graduating from a university without having their education fragmented by financial crisis. Success is also measured by a family member obtaining a well-paying, long-term career with high growth opportunities, rather than just a survival-level job. Furthermore, the ultimate goal is for the family to reach a point where they can maintain their previous standard of living entirely without third-party financial support. Lastly, by providing mental health resources, the Foundation evaluates success by the family's increased resilience and their capacity to plan for the future beyond mere survival, and this could be done through evaluations provided by mental specialists.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2>Decision Making & Communications</h2>
+                </div>
+
+                <div class="question">
+                    <h3>Who will make the decision about funding?</h3>
+                    <div class="answer-box">
+                        The GentleNet Foundation believes that funding decisions should reflect the circumstances families face in the immediate aftermath of losing a primary income earner. Each family is paired with a designated representative who works closely with them throughout the process, helping to understand their needs and advocating on their behalf. While the representative gathers information and guides the family, the final decisions about funding including the level and duration of support are made by the foundation's leadership or board. This structure allows families to have a voice in the decision making process while ensuring that resources are allocated responsibly and in alignment with the foundation's mission to support long term stability and recovery.
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>Will publicity be important?</h3>
+                    <div class="answer-box">
+                        Publicity would play an important role in helping the Gentle Net Foundation reach families at the moment they need support the most. Referrals from medical professionals and local networks depend on a visible and trusted presence. At the same time outreach must be handled with care as the foundation prioritizes partnerships and community based visibility rather than broad marketing ensuring that awareness grows in a way that protects families dignities while strengthening the pathways through which they can be supported.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="staff" class="page">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Our Team</h2>
+                </div>
+                <div class="staff-grid">
+                    <div class="staff-card">
+                        <div class="staff-name">George</div>
+                        <div class="staff-role">Mission & Vision Lead</div>
+                        <div class="staff-responsibility">
+                            Responsible for defining the foundation's core mission and articulating the transformative change we seek to bring about in supporting families during their most vulnerable moments.
+                        </div>
+                    </div>
+
+                    <div class="staff-card">
+                        <div class="staff-name">Mariam</div>
+                        <div class="staff-role">Theory of Change Specialist</div>
+                        <div class="staff-responsibility">
+                            Develops the strategic framework for how change will occur and oversees the identification and outreach to potential grant recipients through community partnerships.
+                        </div>
+                    </div>
+
+                    <div class="staff-card">
+                        <div class="staff-name">Meera</div>
+                        <div class="staff-role">Organizational Development Director</div>
+                        <div class="staff-responsibility">
+                            Leads staff recruitment, organizational structure design, and board governance to ensure the foundation operates efficiently and remains mission-driven.
+                        </div>
+                    </div>
+
+                    <div class="staff-card">
+                        <div class="staff-name">Terrence</div>
+                        <div class="staff-role">Grant Strategy & Evaluation Manager</div>
+                        <div class="staff-responsibility">
+                            Oversees the design of support programs, partnership development, and evaluation metrics to measure the long-term success and impact of our grants.
+                        </div>
+                    </div>
+
+                    <div class="staff-card">
+                        <div class="staff-name">Mouza</div>
+                        <div class="staff-role">Decision Making & Communications Lead</div>
+                        <div class="staff-responsibility">
+                            Manages the funding decision process and develops strategic communications to build trust and visibility within the community while protecting family dignity.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="section">
+                <div class="section-header">
+                    <h2>Contact Us</h2>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-section">
+                        <h3>General Inquiries</h3>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <strong>Email:</strong>
+                                <span>info@gentlenetfoundation.org</span>
+                            </div>
+                            <div class="contact-item">
+                                <strong>Phone:</strong>
+                                <span>+971 2 123 4567</span>
+                            </div>
+                            <div class="contact-item">
+                                <strong>Hours:</strong>
+                                <span>Monday - Friday, 9:00 AM - 5:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3>For Families Seeking Support</h3>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <strong>Email:</strong>
+                                <span>support@gentlenetfoundation.org</span>
+                            </div>
+                            <div class="contact-item">
+                                <strong>Hotline:</strong>
+                                <span>+971 2 123 4567</span>
+                            </div>
+                            <div class="contact-item">
+                                <strong>Hours:</strong>
+                                <span>Available 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3>Partnership Opportunities</h3>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <strong>Email:</strong>
+                                <span>partnerships@gentlenetfoundation.org</span>
+                            </div>
+                            <div class="contact-item">
+                                <strong>Phone:</strong>
+                                <span>+ (971) 123-4567</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3>Office Location</h3>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <strong>Address:</strong>
+                                <span>Abu Dhabi<br>C2 Building <br>NYUAD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            const buttons = document.querySelectorAll('.nav-btn');
+            
+            pages.forEach(p => p.classList.remove('active'));
+            buttons.forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
